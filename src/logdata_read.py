@@ -25,7 +25,7 @@ internal_urls = set()
 external_urls = set()
 
 
-class logdata_read:
+class LogdataRead:
 
     @staticmethod
     def get_dataset_text_content_message(log_message):
@@ -109,7 +109,7 @@ class logdata_read:
             # Log the error and return None instead of exiting
             import logging
             logging.error(f'No block ID found in the sentence: {line_content}')
-            exit()
+
             return None  # Returning None allows the calling code to handle the error
 
     def read_original_data_log_from_log_to_csv(self, dataset, All_dataset_path_as_csv):
@@ -130,7 +130,7 @@ class logdata_read:
 
             return df
 
-        if dataset == 'UU_BGL':  # 4747962 record
+        if dataset == 'UU_BGL':
 
             #  Define dtype mapping for efficient memory usage
             dtype_mapping = {
@@ -148,7 +148,6 @@ class logdata_read:
 
             df = pd.read_csv(f'../datasets/{dataset}.log_structured.csv', dtype=dtype_mapping)
             df.info()
-            # exit()  #  4.713.493
             #  Rename columns for consistency
             df = df.rename(columns={"Node": "Node_block_id"})
 
@@ -167,16 +166,9 @@ class logdata_read:
             df['processed_EventTemplate'].fillna(df['Content'], inplace=True)
             nan_count = df['processed_EventTemplate'].isna().sum()
             print(f"Number of NaN values in 'processed_EventTemplate': {nan_count}")
-            # exit()
 
             df['processed_EventTemplate'] = df['processed_EventTemplate'].astype(str)
-
-            # print(df[['Label', 'Content', 'processed_EventTemplate']].head())
-            #            exit()
-            # ✅ Remove invalid processed event templates
-            # df = df[df['processed_EventTemplate'] != 'xxx']
-            # no_token_message=df[df['processed_EventTemplate'] == 'xxx']
-            # ✅ Select only required columns (memory efficiency)
+            # Select only required columns (memory efficiency)
             df = df[['Timestamp', 'Date', 'Time', 'Content',
                      'processed_EventTemplate', 'Node_block_id', 'Label']]
 
@@ -214,7 +206,6 @@ class logdata_read:
             df = process_logs(df, window_size=120)  # Block , Updated_Label
             # print(df_processed.head())
             print(' length df after windows ' + str(len(df)))
-            #            exit()
 
             print('check....')
             # ✅ Separate Normal & Anomaly Logs
@@ -224,11 +215,7 @@ class logdata_read:
             df3 = df_block.query("Updated_Label == 'Normal'").reset_index(drop=True)
             df4 = df_block.query("Updated_Label == 'Anomaly'").reset_index(drop=True)
 
-            # ✅ Extract Unique Node Block IDs
-            # df3 = df1.drop_duplicates(subset=['Block_id']).reset_index(drop=True)  # Unique Normal Blocks
-            # df4 = df2.drop_duplicates(subset=['Block_id']).reset_index(drop=True)  # Unique Anomalous Blocks
-
-            # ✅ Print Dataset Statistics
+            # Print Dataset Statistics
             print(f"Normal logs: {len(df1):,}")  # 4,365,033
             print(f"Anomaly logs: {len(df2):,}")  # 348,460
             print(f"Unique normal blocks: {len(df3):,}")  # 49,247
@@ -239,7 +226,7 @@ class logdata_read:
             df = df.rename(columns={'Block': 'Node_block_id', 'Updated_Label': 'Label'})
             df.info()
             print(' save as csv file ....')
-            # ✅ Save Processed Dataset Efficiently
+            # Save Processed Dataset Efficiently
             df.to_csv(All_dataset_path_as_csv, escapechar='\\', index=False)  # OK 05_04_2025
 
         elif dataset == 'UU_HDFS':  # 11.170.033
@@ -248,7 +235,7 @@ class logdata_read:
             dataset_path = f'../datasets/{dataset}.log_structured.csv'
             hdfs_label_file_path = '../datasets/anomaly_label.csv'
 
-            # ✅ Optimized Data Loading (Using dtypes for Memory Efficiency)
+            # Optimized Data Loading (Using dtypes for Memory Efficiency)
             dtype_mapping = {
                 'Node_block_id': 'str',
                 'Content': 'str',
@@ -263,28 +250,26 @@ class logdata_read:
             df = pd.read_csv(dataset_path, dtype=dtype_mapping)
             df.info()
 
-            # ✅ Extract Block ID
+            # Extract Block ID
             df["Node_block_id"] = df["Content"].apply(self.get_block_id_hdfs)
             df_missing = df[df['Node_block_id'].isna()]
             print(len(df_missing))
-            # exit()
 
-            # ✅ Read Labels (Optimized merge with dtype)
+            # Read Labels (Optimized merge with dtype)
             df_labels = pd.read_csv(hdfs_label_file_path, dtype={'BlockId': 'str', 'Label': 'category'})
 
             count_block_original = df_labels.drop_duplicates(subset=['BlockId'])  # Unique Normal Blocks
             count_block_ds = df.drop_duplicates(subset=['Node_block_id'])  # Unique Normal Blocks
             print(len(count_block_original))
             print(len(count_block_ds))
-            # exit()
 
-            # ✅ Merge Logs with Anomaly Labels
+            # Merge Logs with Anomaly Labels
             # Debugging log count before merging
             print(f"Total logs before merging: {len(df)}")
             df = pd.merge(df, df_labels, how='left', left_on='Node_block_id', right_on='BlockId')
             print(f"Total logs after merging: {len(df)}")
 
-            # ✅ Remove Rows with Missing BlockId (Ensures valid merges)
+            # Remove Rows with Missing BlockId (Ensures valid merges)
             # Check logs with missing labels
             missing_labels = df['Node_block_id'].isna().sum()
             print(f"Logs with missing labels (NaN Node_block_id): {missing_labels}")
@@ -299,12 +284,12 @@ class logdata_read:
             df['BlockId'] = df['BlockId'].replace(to_replace='None', value=np.nan)
             #            df = df.dropna(subset=['BlockId'])
             print(f"Total logs after dropna: {len(df)}")
-            #            exit()
-            # ✅ Ensure 'Date' has leading zeros (Padding)
+
+            # Ensure 'Date' has leading zeros (Padding)
             print(' Zfill ..........')
             df['Date'] = df['Date'].astype(str).str.zfill(6)
 
-            # ✅ Safe Parsing of Date & Time
+            # Safe Parsing of Date & Time
             def safe_parse(date, time):
                 try:
                     return pd.to_datetime(str(date) + str(time), format='%y%m%d%H%M%S')
@@ -314,25 +299,14 @@ class logdata_read:
             print('preparing Timestamp.......')
             df['Timestamp'] = df.apply(lambda row: safe_parse(row['Date'], row['Time']), axis=1)
 
-            # ✅ Remove Invalid Timestamps
-            # df.dropna(subset=['Timestamp'], inplace=True)
-
-            # ✅ Process EventTemplate
+            # Process EventTemplate
             df["processed_EventTemplate"] = df["EventTemplate"].apply(self.get_dataset_text_content_message)
             df['processed_EventTemplate'].fillna(df['Content'], inplace=True)
             nan_count = df['processed_EventTemplate'].isna().sum()
             if nan_count > 0:
                 print(f"1_Number of NaN values in 'processed_EventTemplate': {nan_count}")
                 exit()
-
-            # ✅ Remove Rows with Invalid Processed EventTemplates
-            # print(f"Total logs before filtering 'xxx': {len(df)}")
-            # removed_xxx = df[df['processed_EventTemplate'] == 'xxx'].shape[0]
-            # print(f"Logs removed with 'xxx': {removed_xxx}")
-            # df = df[(df['processed_EventTemplate'] != 'xxx')]
-            # print(f"Total logs after filtering 'xxx': {len(df)}")
-            # exit()
-            # ✅ Select Relevant Columns Only (Reduce Memory Usage)
+            # Select Relevant Columns Only (Reduce Memory Usage)
             df = df[['Timestamp', 'Date', 'Time', 'Content',
                      'processed_EventTemplate', 'Node_block_id', 'Label']]
 
@@ -343,143 +317,31 @@ class logdata_read:
                 exit()
 
             print(len(df))
-            # ✅ Reset Index (Avoids Gaps)
+            # Reset Index (Avoids Gaps)
             df.reset_index(drop=True, inplace=True)
             print(len(df))
             #            exit()
 
-            # ✅ Separate Normal & Anomaly Logs
+            #  Separate Normal & Anomaly Logs
             df1 = df[df['Label'] == 'Normal']  # Normal logs
             df2 = df[df['Label'] == 'Anomaly']  # Anomalous logs
 
-            # ✅ Extract Unique Node Block IDs
+            #  Extract Unique Node Block IDs
             df3 = df1.drop_duplicates(subset=['Node_block_id'])  # Unique Normal Blocks
             df4 = df2.drop_duplicates(subset=['Node_block_id'])  # Unique Anomalous Blocks
 
-            # ✅ Reset Index to Optimize Performance
+            #  Reset Index to Optimize Performance
             for d in [df1, df2, df3, df4]:
                 d.reset_index(drop=True, inplace=True)
 
-            # ✅ Print Dataset Statistics
+            #  Print Dataset Statistics
             print(f"Normal logs: {len(df1):,}")  # 10,887,379
             print(f"Anomaly logs: {len(df2):,}")  # 288,250
             print(f"Unique normal blocks: {len(df3):,}")  # 558,223
             print(f"Unique anomaly blocks: {len(df4):,}")  # 16,838
             print(' ----- Completed ------')
 
-            # ✅ Check Memory Usage
+            #  Check Memory Usage
             df.info()
-            # ✅ Save Processed Dataset Efficiently
-            df.to_csv(All_dataset_path_as_csv, index=False)  # OK 06_04_2025
-
-        elif dataset == 'UU_TH':
-
-            # ✅ Define dtype mapping for efficient memory usage
-            dtype_mapping = {
-                "ParameterList": "str",
-                "EventTemplate": "str",
-                "Content": "str",
-                "Date": "str",
-                "Month": "str",
-                "Day": "str",
-                "Time": "str",
-                "Location": "str",
-                "PID": "str",  # OK
-                "Component": "category",
-                "EventId": "category",
-                "Timestamp": "str",
-                "Label": "category"
-            }
-
-            df = pd.read_csv(f'../datasets/{dataset}.log_structured.csv', dtype=dtype_mapping)
-            df = df.head(10000000)  # first 10 million
-
-            df['Timestamp'] = pd.to_datetime(df['Date'] + ' ' + df['Time'])
-            nan_count = df['Content'].isna().sum()
-            print(f"Number of NaN values in 'log_message': {nan_count}")
-            nan_count = df['EventTemplate'].isna().sum()
-            print(f"Number of NaN values in 'EventTemplate': {nan_count}")
-            # exit()
-
-            x = df[df['Label'] == '-']  # Normal logs
-            y = df[df['Label'] != '-']  # Anomalous log
-
-            print(len(x))
-            print(len(y))
-            # exit()
-
-            # ✅ Process EventTemplate
-            df["processed_EventTemplate"] = df["EventTemplate"].apply(self.get_dataset_text_content_message)
-
-            # ✅ Remove invalid processed event templates
-            # df = df[df['processed_EventTemplate'] != 'xxx']
-
-            # ✅ Select only required columns (memory efficiency)
-            df = df[['Timestamp', 'Date', 'Time', 'Content',
-                     'processed_EventTemplate', 'Label']]
-
-            x = df[df['Label'] == '-']  # Normal logs
-            y = df[df['Label'] != '-']  # Anomalous log
-
-            print(len(x))
-            print(len(y))
-
-            # exit()
-
-            def process_logs_Th(df, window_size=100, step_size=100):
-                df = df.copy()
-                df.sort_values(by=['Timestamp'], inplace=True)  # Ensure order
-
-                updated_labels = [''] * len(df)
-                block_ids = [0] * len(df)
-                block_counter = 1  # Initialize Block ID counter
-
-                for start_idx in range(0, len(df) - window_size + 1, step_size):
-                    end_idx = start_idx + window_size
-                    sequence = df.iloc[start_idx:end_idx]
-                    # Determine label for the window
-                    if any(sequence['Label'] != '-'):
-                        label = 'Anomaly'
-                    else:
-                        label = 'Normal'
-
-                    # Apply label and block ID
-                    for idx in sequence.index:
-                        updated_labels[idx] = label
-                        block_ids[idx] = block_counter
-                    block_counter += 1
-                # For any unprocessed rows (in case len(df) not divisible by step_size)
-                for idx in range(len(df)):
-                    if updated_labels[idx] == '':
-                        updated_labels[idx] = 'Normal'  # or np.nan
-                        block_ids[idx] = block_counter
-                        block_counter += 1
-                df['Updated_Label'] = updated_labels
-                df['Block'] = block_ids
-                return df
-
-            # Example usage
-            df = process_logs_Th(df, window_size=100, step_size=100)  # Block , Updated_Label
-            # print(df_processed.head())
-
-            print('check....')
-            # ✅ Separate Normal & Anomaly Logs
-            df1 = df.query("Label == '-'").reset_index(drop=True)  # Normal logs
-            df2 = df.query("Label != '-'").reset_index(drop=True)  # Anomaly logs
-            df_block = df.drop_duplicates(subset=['Block']).reset_index(drop=True)  # Unique Normal Blocks
-            df3 = df_block.query("Updated_Label == 'Normal'").reset_index(drop=True)
-            df4 = df_block.query("Updated_Label == 'Anomaly'").reset_index(drop=True)
-
-            # ✅ Print Dataset Statistics
-            print(f"Normal logs: {len(df1):,}")  # 9,595,833
-            print(f"Anomaly logs: {len(df2):,}")  # 353,794
-            print(f"Unique normal blocks: {len(df3):,}")  # 61,073
-            print(f"Unique anomaly blocks: {len(df4):,}")  # 38,424
-            print(f"All unique blocks: {len(df_block):,}")  # 99,497
-
-            df = df.drop(columns=['Label'])
-            df = df.rename(columns={'Block': 'Node_block_id', 'Updated_Label': 'Label'})
-            df.info()
-            print(' save as csv file ....')
-            # ✅ Save Processed Dataset Efficiently
-            df.to_csv(All_dataset_path_as_csv, escapechar='\\', index=False)
+            #  Save Processed Dataset Efficiently
+            df.to_csv(All_dataset_path_as_csv, index=False)

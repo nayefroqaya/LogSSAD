@@ -5,11 +5,11 @@ import pandas as pd
 import torch
 
 from Utility import Utilities
-from anomaly_detection import anomaly_detector
-from features_engineering import features_engineering
-from features_extracting import features_extracting
-from logdata_read import logdata_read
-from model_evaluation import model_evaluation
+from anomaly_detection import AnomalyDetector
+from features_engineering import FeaturesEngineering
+from features_extracting import FeaturesExtractor
+from logdata_read import LogdataRead
+from model_evaluation import ModelEvaluation
 
 # ====================== Setup ======================
 warnings.filterwarnings('ignore')
@@ -37,24 +37,28 @@ def main():
     pd.set_option("display.max_colwidth", None)
 
     # ---------------- Project configuration ----------------
-    DATASET_NAME = 'UU_HDFS_train'
     DATASET = 'UU_HDFS'
     DATASETS_FOLDER = 'datasets'
 
     # Paths
     ALL_DATASET_LOG_PATH = f'../{DATASETS_FOLDER}/{DATASET}.LOG'
     ALL_DATASET_CSV_PATH = f'../{DATASETS_FOLDER}/{DATASET}.csv'
-    DOC_TOPIC_DF_PATH = f'../{DATASETS_FOLDER}/{DATASET_NAME}_All_doc_topic_df.pkl'
-    SENTIMENT_DF_PATH = f'../{DATASETS_FOLDER}/{DATASET_NAME}_All_sentiment_df.pkl'
-    PRE_FINAL_GLOBAL_FEATURES_PKL_PATH = f'../{DATASETS_FOLDER}/{DATASET_NAME}_All_pre_final_global_features.pkl'
+    DOC_TOPIC_DF_PATH = f'../{DATASETS_FOLDER}/{DATASET}_All_doc_topic_df.pkl'
+    SENTIMENT_DF_PATH = f'../{DATASETS_FOLDER}/{DATASET}_All_sentiment_df.pkl'
+    PRE_FINAL_GLOBAL_FEATURES_PKL_PATH = f'../{DATASETS_FOLDER}/{DATASET}_All_pre_final_global_features.pkl'
 
     # ---------------- Initialize classes ----------------
-    logdata_read_obj = logdata_read()
-    features_extracting_obj = features_extracting()
-    features_engineering_obj = features_engineering()
-    anomaly_detection_obj = anomaly_detector()
-    model_evaluation_obj = model_evaluation()
+    logdata_read_obj = LogdataRead()
+    features_extracting_obj = FeaturesExtractor()
+    features_engineering_obj = FeaturesEngineering()
+    anomaly_detection_obj = AnomalyDetector()
+    model_evaluation_obj = ModelEvaluation()
     utilities_obj = Utilities()
+
+    # ---------------- Data as CSV ----------------
+    logdata_read_obj.read_original_data_log_from_log_to_csv(DATASET, ALL_DATASET_CSV_PATH)
+    print(' Reading the file was done successfully ')
+    exit()
 
     # ---------------- Dataset Splitting ----------------
     print(f"{GRAY}Splitting dataset into training, validation, and test sets...{RESET}")
@@ -74,7 +78,7 @@ def main():
         features_extracting_obj,
         DOC_TOPIC_DF_PATH,
         SENTIMENT_DF_PATH,
-        DATASET_NAME,
+        DATASET,
         PRE_FINAL_GLOBAL_FEATURES_PKL_PATH,
         final_train_with_test
     )
@@ -83,16 +87,16 @@ def main():
 
     # ---------------- Features Engineering: Aggregation/Transformation ----------------
     print(f"{GRAY}Aggregating and transforming features...{RESET}")
-    sequences_df, X_sequences_df, y_sequences_df = features_engineering_obj.features_aggregation_transformation(
+    sequences_df, x_sequences_df, y_sequences_df = features_engineering_obj.features_aggregation_transformation(
         final_train_with_test,
         DATASET
     )
 
     # ---------------- Prepare datasets ----------------
     print(f"{GRAY}Preparing training and evaluation datasets...{RESET}")
-    X_train_normal_labelled = X_sequences_df[y_sequences_df == 0]
-    X_train_all_data = X_sequences_df[y_sequences_df != 888]
-    X_unlabeled_from_train = X_sequences_df[y_sequences_df == 999]
+    x_train_normal_labelled = x_sequences_df[y_sequences_df == 0]
+    X_train_all_data = x_sequences_df[y_sequences_df != 888]
+    x_unlabeled_from_train = x_sequences_df[y_sequences_df == 999]
 
     labelled_df_from_train = sequences_df[sequences_df['Temp_label'] == 0]
     ground_truth_labeled_data_from_train = labelled_df_from_train['Label']
@@ -108,23 +112,23 @@ def main():
 
     # ---------------- Novelty detection and label establishment ----------------
     print(f"{GRAY}Performing novelty detection and establishing labels...{RESET}")
-    X_train, y_train, X_test, y_test_truth = features_engineering_obj.novelty_detection_label_establishment(
+    x_train, y_train, x_test, y_test_truth = features_engineering_obj.novelty_detection_label_establishment(
         sequences_df,
-        X_train_normal_labelled,
-        X_unlabeled_from_train,
+        x_train_normal_labelled,
+        x_unlabeled_from_train,
         ground_truth_unlabeled_data_from_train
     )
 
     # ---------------- Anomaly Detection ----------------
     print(f"{GRAY}Running anomaly detection on test dataset...{RESET}")
     y_test_truth, y_test_pred = anomaly_detection_obj.anomaly_detector(
-        X_train, y_train, X_test, y_test_truth
+        x_train, y_train, x_test, y_test_truth
     )
 
     # ---------------- Model Evaluation ----------------
     print(f"{GRAY}Evaluating model performance...{RESET}")
     model_evaluation_obj.evaluation(
-        number_component, y_test_truth, y_test_pred, DATASET, X_test
+        number_component, y_test_truth, y_test_pred, DATASET, x_test
     )
 
 

@@ -19,7 +19,7 @@ RESET = colorama.Fore.RESET
 YELLOW = colorama.Fore.YELLOW
 
 
-class anomaly_detector:
+class AnomalyDetector:
 
     @staticmethod
     def anomaly_detector(X_train, y_train, X_test, y_test_truth):

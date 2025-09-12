@@ -19,7 +19,7 @@ RESET = colorama.Fore.RESET
 YELLOW = colorama.Fore.YELLOW
 
 
-class features_engineering:
+class FeaturesEngineering:
 
     @staticmethod
     def summing_Train_test_together(dataset, df_train_with_test):
