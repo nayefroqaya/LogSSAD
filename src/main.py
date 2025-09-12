@@ -1,4 +1,3 @@
-import time
 import warnings
 
 import colorama
@@ -20,6 +19,7 @@ GREEN = colorama.Fore.GREEN
 GRAY = colorama.Fore.LIGHTBLACK_EX
 RESET = colorama.Fore.RESET
 YELLOW = colorama.Fore.YELLOW
+
 
 # ====================== Main ======================
 def main():
@@ -79,7 +79,6 @@ def main():
         final_train_with_test
     )
 
-
     final_train_with_test = pd.read_pickle(PRE_FINAL_GLOBAL_FEATURES_PKL_PATH)
 
     # ---------------- Features Engineering: Aggregation/Transformation ----------------
@@ -127,8 +126,6 @@ def main():
     model_evaluation_obj.evaluation(
         number_component, y_test_truth, y_test_pred, DATASET, X_test
     )
-
- 
 
 
 if __name__ == "__main__":
