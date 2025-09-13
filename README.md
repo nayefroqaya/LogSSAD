@@ -22,6 +22,7 @@ We used two open-source log datasets (more will be added in the future):
 ---
 ## ⚙️ Environment
 All libraries are specified with their versions in the requirements file.
+
 ---
 ## 🛠️ Preparation
 Steps to run LOGAD:
