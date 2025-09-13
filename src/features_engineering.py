@@ -167,9 +167,9 @@ class FeaturesEngineering:
             lambda x: x.tolist())
 
         # Prepare features and aggregate
-        df_train_with_test = features_engineering.preparing_features_training_combined_labeled_unlabeled(
+        df_train_with_test = FeaturesEngineering.preparing_features_training_combined_labeled_unlabeled(
             dataset, final_train_with_test)
-        sequences_df = features_engineering.summing_Train_test_together(dataset, df_train_with_test)
+        sequences_df = FeaturesEngineering.summing_Train_test_together(dataset, df_train_with_test)
 
         # Apply Standard Scaler to the summed feature vectors
         Train_Test_df_lst = np.vstack(sequences_df['features'].values)

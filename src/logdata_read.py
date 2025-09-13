@@ -43,7 +43,7 @@ class LogdataRead:
             # Ensure that text is a string
             if not isinstance(text, str):
                 print(f"Warning: Expected string, but received {type(text)}. Returning empty string.")
-                print('not ok text ------' + str(text))
+                print('It is not ok  with the text ------' + str(text))
                 exit()
                 return ""  # Return an empty string if input is not a valid string
             else:
@@ -118,7 +118,6 @@ class LogdataRead:
             prev_valid_id = None  # Store the last valid Node_block_id
             prev_label = None  # Store the last Label
 
-            #          for i in range(len(df)):
             for i in tqdm(range(len(df)), desc="Processing Rows", unit="row"):
 
                 if df.loc[i, 'Node_block_id'] == 'UNKNOWN':
@@ -208,7 +207,7 @@ class LogdataRead:
             print(' length df after windows ' + str(len(df)))
 
             print('check....')
-            # ✅ Separate Normal & Anomaly Logs
+            # Separate Normal & Anomaly Logs
             df1 = df.query("Label == '-'").reset_index(drop=True)  # Normal logs
             df2 = df.query("Label != '-'").reset_index(drop=True)  # Anomaly logs
             df_block = df.drop_duplicates(subset=['Block']).reset_index(drop=True)  # Unique Normal Blocks
@@ -227,7 +226,7 @@ class LogdataRead:
             df.info()
             print(' save as csv file ....')
             # Save Processed Dataset Efficiently
-            df.to_csv(All_dataset_path_as_csv, escapechar='\\', index=False)  # OK 05_04_2025
+            df.to_csv(All_dataset_path_as_csv, escapechar='\\', index=False) 
 
         elif dataset == 'UU_HDFS':  # 11.170.033
             # new ---------
