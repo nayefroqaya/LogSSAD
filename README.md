@@ -38,7 +38,7 @@ Steps to run LOGAD:
 To apply LOGAD on new log data:
 
 1. Create a dataset directory under `datasets`.  
-2. Place name of the dataset in main.py fiile.  
+2. Place name of the dataset in main.py file.  
 3. Implement a new case for new dataset in the LogdataRead class (see `src/logdata_reader.py`).
 ---
 ## 📬 Contact
