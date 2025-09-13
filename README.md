@@ -28,7 +28,7 @@ Steps to run LOGAD:
 
 1. Create a dataset directory under `datasets` (e.g., `HDFS`, `BGL`).
 2. In main.py file, make the name of the dataset BGL or HDFS.
-3. Be sure you install all linraraies in requirmwnt file.
+3. Be sure you install all libraries in requirmwnt file.
 ---
 ## 📌 Data Parsing
 1. For Drain parser details, see [IBM Drain](https://github.com/logpai/logparser/tree/main/logparser/Drain).
