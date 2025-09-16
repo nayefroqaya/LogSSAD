@@ -4,7 +4,7 @@ import colorama
 import pandas as pd
 import torch
 
-from Utility import Utilities
+from utility import Utilities
 from anomaly_detection import AnomalyDetector
 from features_engineering import FeaturesEngineering
 from features_extracting import FeaturesExtractor
