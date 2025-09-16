@@ -35,11 +35,11 @@ YELLOW = colorama.Fore.YELLOW
 class FeaturesExtractor:
     """
     A comprehensive feature extraction class for processing log data with multiple feature types:
-    - Sentiment analysis
-    - Topic modeling (LDA)
-    - Semantic embeddings (BERT)
-    - Temporal features
-    - Text statistics
+    - Sentiment analysis.
+    - Topic modeling (LDA) : Dominant Topic and Entropy. 
+    - Semantic embeddings (SBERT).
+    - Temporal features : Month, day, hour, minut, second.
+    - Text statistics : Word count and characters count.
     """
 
     @staticmethod
