@@ -43,7 +43,7 @@ Steps to run LOGAD:
 To apply LOGAD on new log data:
 
 2. Place name of the dataset in main.py file.  
-3. start the file: `src/main.py`).
+3. Start the file: `src/main.py`).
 ---
 ## 📬 Contact
 We are happy to answer your questions:   
