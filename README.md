@@ -4,6 +4,7 @@ LOGAD: Semi-Supervised Anomaly Detection in Log Series
 ## 📌 Description
 **LOGAD** is a novel approach for log-based anomaly detection, i.e., textual event series.
 Main steps:
+
 (1) Leverage a broad range of features.
 (2) based on a subset of only normal data, we use OC-SVM to generate pseudo-labels and estimate labels for unlabeled log sequences in the training set.
 (3) Employ an ensemble learning framework to train the dataset.
