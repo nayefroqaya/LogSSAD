@@ -1,2 +1,2 @@
 Download datasets from the link: https://github.com/logpai/loghub
-
+Drain Parser from the link : https://github.com/logpai/logparser/tree/main/logparser/Drain
