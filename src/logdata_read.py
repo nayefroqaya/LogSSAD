@@ -129,7 +129,7 @@ class LogdataRead:
 
             return df
 
-        if dataset == 'UU_BGL':
+        if dataset == 'BGL':
 
             #  Define dtype mapping for efficient memory usage
             dtype_mapping = {
@@ -228,7 +228,7 @@ class LogdataRead:
             # Save Processed Dataset Efficiently
             df.to_csv(All_dataset_path_as_csv, escapechar='\\', index=False) 
 
-        elif dataset == 'UU_HDFS':  # 11.170.033
+        elif dataset == 'HDFS':  # 11.170.033
             # new ---------
             # File paths
             dataset_path = f'../datasets/{dataset}.log_structured.csv'
