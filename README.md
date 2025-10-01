@@ -1,5 +1,4 @@
 # LOGAD
-{ "schemaVersion": 1, "label": "hello", "message": "sweet world", "color": "orange" }
 LOGAD: Semi-Supervised Anomaly Detection in Log Series
 
 ## 📌 Description
