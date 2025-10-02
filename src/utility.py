@@ -68,13 +68,13 @@ class Utilities:
         unique_ids = df_features['Node_block_id'].unique()
         total_ids = len(unique_ids)
 
-        if dataset == 'UU_HDFS':
+        if dataset == 'HDFS':
             # HDFS split: 60% train, 10% validation, 30% test
             train_end = int(0.6 * total_ids)
             val_end = train_end + int(0.1 * total_ids)
             train_ids, val_ids, test_ids = unique_ids[:train_end], unique_ids[train_end:val_end], unique_ids[val_end:]
 
-        elif dataset in ['UU_BGL', 'UU_TH']:
+        elif dataset in ['BGL', 'TH']:
             # Shuffle and split
             shuffled_ids = np.random.permutation(unique_ids)
             train_size, val_size = int(0.6 * total_ids), int(0.1 * total_ids)

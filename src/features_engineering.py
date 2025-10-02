@@ -39,12 +39,12 @@ class FeaturesEngineering:
         ).reset_index()
 
         # Assigning a label to each log_sequence_id
-        if dataset == 'UU_HDFS':
-            sequence_labels_normal_labelled = log_normal_labelled.groupby('Node_block_id')['Label'].apply(
+        #if dataset == 'HDFS':
+        sequence_labels_normal_labelled = log_normal_labelled.groupby('Node_block_id')['Label'].apply(
                 lambda x: 'anomaly' if any(lbl != 'Normal' for lbl in x) else 'normal').reset_index()
-        else:
-            sequence_labels_normal_labelled = log_normal_labelled.groupby('Node_block_id')['Label'].apply(
-                lambda x: 'anomaly' if any(lbl != 'Normal' for lbl in x) else 'normal').reset_index()
+        #else:
+        #    sequence_labels_normal_labelled = log_normal_labelled.groupby('Node_block_id')['Label'].apply(
+        #        lambda x: 'anomaly' if any(lbl != 'Normal' for lbl in x) else 'normal').reset_index()
 
         # Merging the summed feature vectors with their respective labels
         summed_df_normal_labelled_train = summed_df_normal_labelled_train.merge(sequence_labels_normal_labelled,
@@ -68,12 +68,12 @@ class FeaturesEngineering:
             'features'].apply(
             lambda x: np.mean(np.stack(x), axis=0)).reset_index()
 
-        if dataset == 'UU_HDFS':
-            sequence_labels_combine_unlabelled = log_remain_normal_anomaly_unlabelled.groupby('Node_block_id')[
+        #if dataset == 'HDFS':
+        sequence_labels_combine_unlabelled = log_remain_normal_anomaly_unlabelled.groupby('Node_block_id')[
                 'Label'].apply(lambda x: 'anomaly' if any(lbl != 'Normal' for lbl in x) else 'normal').reset_index()
-        else:
-            sequence_labels_combine_unlabelled = log_remain_normal_anomaly_unlabelled.groupby('Node_block_id')[
-                'Label'].apply(lambda x: 'anomaly' if any(lbl != 'Normal' for lbl in x) else 'normal').reset_index()
+        #else:
+        #    sequence_labels_combine_unlabelled = log_remain_normal_anomaly_unlabelled.groupby('Node_block_id')[
+        #        'Label'].apply(lambda x: 'anomaly' if any(lbl != 'Normal' for lbl in x) else 'normal').reset_index()
 
         # Merging the summed feature vectors with their respective labels
         summed_df_combine_unlabelled_train = summed_df_combine_unlabelled_train.merge(
@@ -95,12 +95,12 @@ class FeaturesEngineering:
         summed_df_combine_unlabelled_test = log_test_unlabelled.groupby('Node_block_id')['features'].apply(
             lambda x: np.mean(np.stack(x), axis=0)).reset_index()
 
-        if dataset == 'UU_HDFS':
-            sequence_labels_combine_unlabelled_test = log_test_unlabelled.groupby('Node_block_id')[
+        #if dataset == 'UU_HDFS':
+        sequence_labels_combine_unlabelled_test = log_test_unlabelled.groupby('Node_block_id')[
                 'Label'].apply(lambda x: 'anomaly' if any(lbl != 'Normal' for lbl in x) else 'normal').reset_index()
-        else:
-            sequence_labels_combine_unlabelled_test = log_test_unlabelled.groupby('Node_block_id')[
-                'Label'].apply(lambda x: 'anomaly' if any(lbl != 'Normal' for lbl in x) else 'normal').reset_index()
+        #else:
+        #    sequence_labels_combine_unlabelled_test = log_test_unlabelled.groupby('Node_block_id')[
+        #        'Label'].apply(lambda x: 'anomaly' if any(lbl != 'Normal' for lbl in x) else 'normal').reset_index()
 
         # Merging the summed feature vectors with their respective labels
         summed_df_combine_unlabelled_test = summed_df_combine_unlabelled_test.merge(

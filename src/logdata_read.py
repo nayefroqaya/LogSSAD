@@ -145,7 +145,7 @@ class LogdataRead:
                 "Label": "category"
             }
 
-            df = pd.read_csv(f'../datasets/{dataset}.log_structured.csv', dtype=dtype_mapping)
+            df = pd.read_csv(f'../datasets/{dataset}/{dataset}.log_structured.csv', dtype=dtype_mapping)
             df.info()
             #  Rename columns for consistency
             df = df.rename(columns={"Node": "Node_block_id"})
@@ -231,8 +231,8 @@ class LogdataRead:
         elif dataset == 'HDFS':  # 11.170.033
             # new ---------
             # File paths
-            dataset_path = f'../datasets/{dataset}.log_structured.csv'
-            hdfs_label_file_path = '../datasets/anomaly_label.csv'
+            dataset_path = f'../datasets/{dataset}/{dataset}.log_structured.csv'
+            hdfs_label_file_path = '../datasets/HDFS/anomaly_label.csv'
 
             # Optimized Data Loading (Using dtypes for Memory Efficiency)
             dtype_mapping = {

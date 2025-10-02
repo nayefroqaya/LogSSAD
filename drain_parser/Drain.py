@@ -235,7 +235,7 @@ class LogParser:
                 self.get_parameter_list, axis=1
             )
         self.df_log.to_csv(
-            os.path.join(self.savePath, self.logName + "_structured.csv"), index=False
+            os.path.join(self.savePath, self.logName + "_structured.csv"),  quotechar='"', escapechar='\\',  index=False
         )
 
         occ_dict = dict(self.df_log["EventTemplate"].value_counts())
@@ -247,7 +247,7 @@ class LogParser:
         df_event["Occurrences"] = df_event["EventTemplate"].map(occ_dict)
         df_event.to_csv(
             os.path.join(self.savePath, self.logName + "_templates.csv"),
-            index=False,
+               quotechar='"', escapechar='\\',   index=False,
             columns=["EventId", "EventTemplate", "Occurrences"],
         )
 
@@ -320,9 +320,21 @@ class LogParser:
         )
 
     def preprocess(self, line):
-        for currentRex in self.rex:
-            line = re.sub(currentRex, "<*>", line)
-        return line
+#        for currentRex in self.rex:
+#            line = re.sub(currentRex, "<*>", line)
+#        return line
+
+      for currentRex in self.rex:
+          # If currentRex is a list, iterate over each regex inside
+          if isinstance(currentRex, list):
+              for rex in currentRex:
+                  line = re.sub(rex, "<*>", line)
+          else:
+              line = re.sub(currentRex, "<*>", line)
+      return line
+
+
+
 
     def log_to_dataframe(self, log_file, regex, headers, logformat):
         """Function to transform log file to dataframe"""

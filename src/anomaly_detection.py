@@ -177,4 +177,4 @@ class AnomalyDetector:
         # Apply optimized threshold
         y_pred_adjusted = (y_proba >= best_threshold).astype(int)
 
-        return y_test_truth, y_pred_adjusted
+        return y_test_truth, y_pred_adjusted , fit_time, predict_time

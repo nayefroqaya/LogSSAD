@@ -37,15 +37,15 @@ def main():
     pd.set_option("display.max_colwidth", None)
 
     # ---------------- Project configuration ----------------
-    DATASET = 'UU_HDFS'
+    DATASET = 'HDFS'
     DATASETS_FOLDER = 'datasets'
 
     # Paths
-    ALL_DATASET_LOG_PATH = f'../{DATASETS_FOLDER}/{DATASET}.LOG'
-    ALL_DATASET_CSV_PATH = f'../{DATASETS_FOLDER}/{DATASET}.csv'
-    DOC_TOPIC_DF_PATH = f'../{DATASETS_FOLDER}/{DATASET}_All_doc_topic_df.pkl'
-    SENTIMENT_DF_PATH = f'../{DATASETS_FOLDER}/{DATASET}_All_sentiment_df.pkl'
-    PRE_FINAL_GLOBAL_FEATURES_PKL_PATH = f'../{DATASETS_FOLDER}/{DATASET}_All_pre_final_global_features.pkl'
+    ALL_DATASET_LOG_PATH = f'../{DATASETS_FOLDER}/{DATASET}/{DATASET}.LOG'
+    ALL_DATASET_CSV_PATH = f'../{DATASETS_FOLDER}/{DATASET}/{DATASET}.csv'
+    DOC_TOPIC_DF_PATH = f'../{DATASETS_FOLDER}/{DATASET}/{DATASET}_All_doc_topic_df.pkl'
+    SENTIMENT_DF_PATH = f'../{DATASETS_FOLDER}/{DATASET}/{DATASET}_All_sentiment_df.pkl'
+    PRE_FINAL_GLOBAL_FEATURES_PKL_PATH = f'../{DATASETS_FOLDER}/{DATASET}/{DATASET}_All_pre_final_global_features.pkl'
 
     # ---------------- Initialize classes ----------------
     logdata_read_obj = LogdataRead()
@@ -56,8 +56,9 @@ def main():
     utilities_obj = Utilities()
 
     # ---------------- Data as CSV ----------------
-    logdata_read_obj.read_original_data_log_from_log_to_csv(DATASET, ALL_DATASET_CSV_PATH)
-    print(' Reading the file was done successfully ')
+#    logdata_read_obj.read_original_data_log_from_log_to_csv(DATASET, ALL_DATASET_CSV_PATH)
+#    print(' Reading the file was done successfully ')
+#    exit()
     # ---------------- Dataset Splitting ----------------
     print(f"{GRAY}Splitting dataset into training, validation, and test sets...{RESET}")
     train_df, validate_df, test_df, df_features = utilities_obj.dataset_splitting(
@@ -119,7 +120,7 @@ def main():
 
     # ---------------- Anomaly Detection ----------------
     print(f"{GRAY}Running anomaly detection on test dataset...{RESET}")
-    y_test_truth, y_test_pred = anomaly_detection_obj.anomaly_detector(
+    y_test_truth, y_test_pred, fit_time, predict_time = anomaly_detection_obj.anomaly_detector(
         x_train, y_train, x_test, y_test_truth
     )
 
@@ -128,6 +129,9 @@ def main():
     model_evaluation_obj.evaluation(
         number_component, y_test_truth, y_test_pred, DATASET, x_test
     )
+
+    print(f"Model training completed in {fit_time:.2f} minutes")
+    print(f"Prediction completed in {predict_time:.2f} minutes")
 
 
 if __name__ == "__main__":
