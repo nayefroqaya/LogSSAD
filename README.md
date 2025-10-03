@@ -41,7 +41,7 @@ Steps to run LOGAD:
 ---
 ## 🚨 Anomaly Detection
 To apply LOGAD on log data:
-run the main fucntion 
+* run the main fucntion (see `src/main.py`)
 ---
 ## 📬 Contact
 We are happy to answer your questions:   
