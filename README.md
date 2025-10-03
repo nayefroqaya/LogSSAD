@@ -51,7 +51,16 @@ We are happy to answer your questions:
 | Nayef Roqaya       | roqaya@staff.uni-marburg.de               |
 | Thorsten Papenbrock| papenbrock@informatik.uni-marburg.de      |
 | Hajira Jabeen      | hajira.jabeen@uk-koeln.de                 |
-  
+
+## 📬 Citation
+@inproceedings{roqaya2025logad,
+  title={LOGAD: Semi-Supervised Anomaly Detection in Log Series},
+  author={Roqaya, Nayef and Papenbrock, Thorsten and Jabeen, Hajira},
+  booktitle={Proceedings of the ACM/SIAM International Conference on Data Mining (SDM)},
+  year={2025},
+  publisher={EDBT26}
+}
+
 
 
 
