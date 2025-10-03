@@ -30,7 +30,7 @@ Steps to run LOGAD:
 
 1. Create a dataset directory under `datasets` (e.g., `HDFS`, `BGL`).
 2. In main.py file, make the name of the dataset BGL or HDFS.
-3. Be sure you install all libraries in requirmwnt file.
+3. Be sure you install all libraries in requirement file.
 ---
 ## 📌 Data Parsing
 1. For Drain parser details, see [IBM Drain](https://github.com/logpai/logparser/tree/main/logparser/Drain).
@@ -40,10 +40,8 @@ Steps to run LOGAD:
 2. Implement a new case for new dataset in the LogdataRead class (see `src/logdata_reader.py`).
 ---
 ## 🚨 Anomaly Detection
-To apply LOGAD on new log data:
-
-2. Place name of the dataset in main.py file.  
-3. Start the file: `src/main.py`).
+To apply LOGAD on log data:
+* run the main fucntion (see `src/main.py`)
 ---
 ## 📬 Contact
 We are happy to answer your questions:   
@@ -53,7 +51,16 @@ We are happy to answer your questions:
 | Nayef Roqaya       | roqaya@staff.uni-marburg.de               |
 | Thorsten Papenbrock| papenbrock@informatik.uni-marburg.de      |
 | Hajira Jabeen      | hajira.jabeen@uk-koeln.de                 |
-  
+
+## 📬 Citation
+@inproceedings{roqaya2025logad,
+  title={LOGAD: Semi-Supervised Anomaly Detection in Log Series},
+  author={Roqaya, Nayef and Papenbrock, Thorsten and Jabeen, Hajira},
+  booktitle={Proceedings of the ACM/SIAM International Conference on Data Mining (SDM)},
+  year={2025},
+  publisher={EDBT26}
+}
+
 
 
 
