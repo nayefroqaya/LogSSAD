@@ -1,5 +1,5 @@
 # **LogSSAD**
-LogSSAD: Semi-Supervised Anomaly Detection in Log Series
+This is the basic implementation of our submission in EDBT 2026. LogSSAD: Semi-Supervised Anomaly Detection in Log Series
 
 ## 📌 Description
 LogSSAD is a novel approach for log-based anomaly detection, i.e., textual event series.  
@@ -50,17 +50,19 @@ All libraries are specified with their versions in the requirements file (e.g., 
 ## 🛠️ Preparation
 Steps to run LogSSAD:
 
-1. Create a dataset directory under `datasets` (e.g., `HDFS`, `BGL`).
-2. In main.py, set the dataset name to either BGL or HDFS.
-3. Install all required libraries from the requirements file (e.g., LogSSAD/requirements.txt).
+1. Install all required libraries from the requirements file (e.g., LogSSAD/requirements.txt).
+2. Create a dataset directory under `datasets` (e.g., `HDFS`, `BGL`) and upload the (datasetname.log) to this directory.
+3. In main.py, set the dataset name to either BGL or HDFS.
+4. For Drain parser details, see [IBM Drain](https://github.com/logpai/logparser/tree/main/logparser/Drain).
+5. The parsing code is available in the `drain_parser` folder.
+6. Specify the dataset name in `demo.py` (e.g., BGL). The code is avaible for BGL and HDFS. Uncomment the lines of the dataset you need to use
 
 ---
 
 ## 📌 Data Parsing
-1. For Drain parser details, see [IBM Drain](https://github.com/logpai/logparser/tree/main/logparser/Drain).
-2. The parsing code is available in the `drain_parser` folder.
-3. To start the parsing process, specify the dataset name in `demo.py` (e.g., BGL) and run `drain_parser/demo.py`.
-4. The parsing output will be generated and saved in the datasets directory.
+
+1. To start the parsing process, run (drain_parser/demo.py). 
+2. The parsing output will be generated and saved in the datasets directory.
 
 ---
 
