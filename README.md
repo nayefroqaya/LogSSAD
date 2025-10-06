@@ -37,14 +37,16 @@ Steps to run LogSSAD:
 ---
 ## 📌 Data Parsing
 1. For Drain parser details, see [IBM Drain](https://github.com/logpai/logparser/tree/main/logparser/Drain).
-2. On GitHub, only a subset of the dataset is used. You should use the full datasets (HDFS and BGL).
-   For new dataset: 
-1. Place name of the dataset in main.py file.  
-2. Implement a new case for new dataset in the LogdataRead class (see `src/logdata_reader.py`).
+2. The parsing code is available in our repository at drain_parser folder.
+3. To start the parsing process, specify the dataset name in demo.py (i.e BGL) and run the file 'drain_parser/demo.py'.
+4. The parsing output will be generated and saved in the datasets directory.
+   
 ---
-## 🚨 Anomaly Detection
+## 🚨 Anomaly Detection 
 To apply LogSSAD on log data:
-* run the main fucntion (see `src/main.py`)
+* Specify the dataset name in src/main.py (i.e BGL or HDFS)
+* Run the main function (src/main.py).
+* The main function will execute all stages: data preprocessing, anomaly detection, and evaluation.
 ---
 ## 📬 Contact
 We are happy to answer your questions:   
@@ -56,11 +58,11 @@ We are happy to answer your questions:
 | Hajira Jabeen      | hajira.jabeen@uk-koeln.de                 |
 
 ## 📬 Citation
-@inproceedings{roqaya2025logad,
+@inproceedings{roqaya2025LogSSAD,
   title={LogSSAD: Semi-Supervised Anomaly Detection in Log Series},
   author={Roqaya, Nayef and Papenbrock, Thorsten and Jabeen, Hajira},
-  booktitle={Proceedings of the ACM/SIAM International Conference on Data Mining (SDM)},
-  year={2025},
+  booktitle={Proceedings of annual International Conference on Extending Database Technology (EDBT)},
+  year={2026},
   publisher={EDBT26}
 }
 
