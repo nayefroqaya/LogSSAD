@@ -1,8 +1,8 @@
-# LOGAD
-LOGAD: Semi-Supervised Anomaly Detection in Log Series
+# LogSSAD
+LogSSAD: Semi-Supervised Anomaly Detection in Log Series
 
 ## 📌 Description
-**LOGAD** is a novel approach for log-based anomaly detection, i.e., textual event series.
+**LogSSAD** is a novel approach for log-based anomaly detection, i.e., textual event series.
 Main steps:
 
 (1) Leverage a broad range of features.
@@ -26,7 +26,7 @@ All libraries are specified with their versions in the requirements file.
 
 ---
 ## 🛠️ Preparation
-Steps to run LOGAD:
+Steps to run LogSSAD:
 
 1. Create a dataset directory under `datasets` (e.g., `HDFS`, `BGL`).
 2. In main.py file, make the name of the dataset BGL or HDFS.
@@ -40,7 +40,7 @@ Steps to run LOGAD:
 2. Implement a new case for new dataset in the LogdataRead class (see `src/logdata_reader.py`).
 ---
 ## 🚨 Anomaly Detection
-To apply LOGAD on log data:
+To apply LogSSAD on log data:
 * run the main fucntion (see `src/main.py`)
 ---
 ## 📬 Contact
@@ -54,7 +54,7 @@ We are happy to answer your questions:
 
 ## 📬 Citation
 @inproceedings{roqaya2025logad,
-  title={LOGAD: Semi-Supervised Anomaly Detection in Log Series},
+  title={LogSSAD: Semi-Supervised Anomaly Detection in Log Series},
   author={Roqaya, Nayef and Papenbrock, Thorsten and Jabeen, Hajira},
   booktitle={Proceedings of the ACM/SIAM International Conference on Data Mining (SDM)},
   year={2025},
