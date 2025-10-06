@@ -1,5 +1,5 @@
 # **LogSSAD**
-LogSSAD: Semi-Supervised Anomaly Detection in Log Series
+This is the basic implementation of our submission in EDBT 2026. LogSSAD: Semi-Supervised Anomaly Detection in Log Series
 
 ## 📌 Description
 LogSSAD is a novel approach for log-based anomaly detection, i.e., textual event series.  
