@@ -60,9 +60,9 @@ Steps to run LogSSAD:
 ---
 
 ## 📌 Data Parsing
-
-1. To start the parsing process, run (drain_parser/demo.py). 
-2. The parsing output will be generated and saved in the datasets directory.
+1. For data parsing, all libraries are specified with their versions in the requirements file (e.g., drain_parser/requirements.txt). 
+2. To start the parsing process, run (drain_parser/demo.py). 
+3. The parsing output will be generated and saved in the datasets directory.
 
 ---
 
