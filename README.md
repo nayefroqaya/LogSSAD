@@ -66,7 +66,6 @@ Steps to run LogSSAD:
 
 ## 🚨 Anomaly Detection 
 To apply the LogSSAD pipeline on log data:
-* Specify the dataset name in `src/main.py` (e.g., BGL or HDFS).
 * Run the main function (`src/main.py`).
 * The main function executes all stages as one pipeline: data preprocessing, anomaly detection, and evaluation.
 
