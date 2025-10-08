@@ -2,17 +2,7 @@
 This is the basic implementation of our submission in EDBT 2026. LogSSAD: Semi-Supervised Anomaly Detection in Log Series
 
 ## 📌 Description
-LogSSAD is a novel approach for log-based anomaly detection, i.e., textual event series.  
-Main steps:
-
-(1) Leverage a diverse set of features.  
-
-(2) Using only normal data, we apply Novelty detection (OC-SVM) to generate pseudo-labels and estimate labels for unlabeled log sequences in the training set.  
-
-(3) Employ an ensemble learning framework to train the dataset.  
-
-We conducted empirical evaluations on two open-source datasets, HDFS and BGL, and achieved the following results:  
-
+LogSSAD is a novel approach for log-based anomaly detection, i.e., textual event series. We conducted empirical evaluations on two open-source datasets, HDFS and BGL, and achieved the following results:  
 LogSSAD attains the highest F1 score on the HDFS dataset and a competitive F1 score on the BGL dataset. Additionally, it demonstrates efficient runtime performance during both training and testing, achieving the shortest runtime compared to baseline methods on both GPU and CPU.
 
 ---
